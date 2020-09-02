@@ -53,12 +53,12 @@ def getcase(title,get_dict):
                     print("操作步骤：", step)
                     #获取期望结果
                     hole_result = get_case["topics"][i]["topics"][j]["topics"][a]["topics"][b]["topics"][1]["topics"][0]["title"]
-                    print("期望结果",hole_result)
+                    print("期望结果", hole_result)
 
 
 if __name__ == "__main__":
         #读取文件
-        data = xmind_to_dict("D:\登录注册.xmind")
+        data = xmind_to_dict("D:\音频风控.xmind")
         #获取列表中的字典
         get_dict = data[0]
         #获取需求的名称
