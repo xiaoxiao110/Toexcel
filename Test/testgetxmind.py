@@ -1,6 +1,23 @@
 from xmindparser import xmind_to_dict
+import xlwt
 
-def getcase(title,get_dict):
+def getcase(title, get_dict, count):
+    xls = xlwt.Workbook()
+    # 设置单元格对齐方式
+    alignment = xlwt.Alignment()
+    #自动换行
+    alignment.wrap = 1
+    #设置样式
+    style = xlwt.XFStyle()
+    style.alignment = alignment
+    sheet = xls.add_sheet("sheet")
+    #设置列
+    h = sheet.col(0)
+    h = 25600 * 100
+    table_name = ['需求名称', '所属模块', '一级模块', '二级模块', '用例名称', '优先级', '前置步骤', '操作步骤', '期望结果', '测试结果', '备注', '测试人']
+    for i in range(11):
+        sheet.write(0, i, table_name[i])
+
     print("需求名称：", title)
     get_case = get_dict["topic"]
     #计算大模块数量
@@ -52,11 +69,22 @@ def getcase(title,get_dict):
                     step = get_case["topics"][i]["topics"][j]["topics"][a]["topics"][b]["topics"][1]["title"]
                     print("操作步骤：", step)
                     #获取期望结果
-                    hole_result = get_case["topics"][i]["topics"][j]["topics"][a]["topics"][b]["topics"][1]["topics"][0]["title"]
+                    hole_result = \
+                        get_case["topics"][i]["topics"][j]["topics"][a]["topics"][b]["topics"][1]["topics"][0]["title"]
                     print("期望结果", hole_result)
+                    #收集用例信息
+                    case_info = [title, get_module_big, get_module_first, get_module_second, case_name,
+                                 priority, step_first, step, hole_result]
+                    #写入Excel
+                    for s in range(9):
+                        sheet.write(count, s, case_info[s], style)
+                    count += 1
+
+    xls.save('./case.xls')
 
 
 if __name__ == "__main__":
+        count = 1
         #读取文件
         data = xmind_to_dict("D:\音频风控.xmind")
         #获取列表中的字典
@@ -64,4 +92,4 @@ if __name__ == "__main__":
         #获取需求的名称
         title = get_dict["topic"]["title"]
 
-        getcase(title,get_dict)
+        sheets = getcase(title, get_dict, count)
