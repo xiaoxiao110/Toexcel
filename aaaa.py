@@ -1,7 +1,7 @@
 from xmindparser import xmind_to_dict
 
 
-def get_case(self, dicts):
+def get_case(self, title, dicts):
     case = dicts["topic"]
     priority = ""
     # 计算大模块数量
